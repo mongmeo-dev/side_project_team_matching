@@ -9,6 +9,7 @@ plugins {
     id 'org.springframework.boot' version '2.7.6'
     id 'io.spring.dependency-management' version '1.0.15.RELEASE'
     id 'org.asciidoctor.convert' version '1.5.8'
+    id 'jacoco'
 }
 
 group = 'dev.mongmeo'
@@ -35,6 +36,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.cloud:spring-cloud-starter-config'
+    implementation 'org.springframework.cloud:spring-cloud-starter-bootstrap'
     compileOnly 'org.projectlombok:lombok'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     runtimeOnly 'com.h2database:h2'
@@ -65,12 +67,40 @@ dependencyManagement {
     }
 }
 
-tasks.named('test') {
-    outputs.dir snippetsDir
+test {
     useJUnitPlatform()
+    finalizedBy 'jacocoTestReport'
+    outputs.dir snippetsDir
 }
 
 tasks.named('asciidoctor') {
     inputs.dir snippetsDir
     dependsOn test
+}
+
+jacocoTestReport {
+    reports {
+        html.enabled true
+        csv.enabled true
+    }
+    finalizedBy 'jacocoTestCoverageVerification'
+}
+
+jacocoTestCoverageVerification {
+    def queryDslClass = []
+    for (qPattern in "*.QA".."*.QZ") {
+        queryDslClass.add(qPattern + "*")
+    }
+
+    violationRules {
+        rule {
+            element = 'CLASS'
+            excludes = queryDslClass
+            limit {
+                counter = 'BRANCH'
+                value = 'COVEREDRATIO'
+                minimum = 0.60
+            }
+        }
+    }
 }
