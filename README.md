@@ -24,10 +24,10 @@
 * MySQL
 * Redis(For Session)
 * H2(For Test)
-### Deploy
+#### Deploy
 * AWS EC2
 
 ---
 ### Diagrams
 * [UseCase](./side-project-use-case.jpg)
-* ERD (준비중)
+* [ERD](https://dbdiagram.io/d/63927a73bae3ed7c4545b28c)
