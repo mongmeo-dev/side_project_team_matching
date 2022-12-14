@@ -2,6 +2,7 @@ package dev.mongmeo.side_project_team_matching.entity.user;
 
 import dev.mongmeo.side_project_team_matching.adapter.out.persistence.converter.JoinTypeConverter;
 import dev.mongmeo.side_project_team_matching.adapter.out.persistence.converter.UserRoleConverter;
+import dev.mongmeo.side_project_team_matching.domain.model.user.SignUpModel;
 import java.time.LocalDateTime;
 import javax.persistence.Column;
 import javax.persistence.Convert;
@@ -10,7 +11,6 @@ import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.PrePersist;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -21,7 +21,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Entity
 @EntityListeners(AuditingEntityListener.class)
 public class UserEntity {
@@ -61,13 +61,18 @@ public class UserEntity {
   @Column
   private LocalDateTime deletedAt;
 
-  @PrePersist
-  private void setDefaultValue() {
-    if (this.joinType == null) {
-      this.joinType = JoinType.EMAIL;
-    }
-    if (this.role == null) {
-      this.role = UserRole.ROLE_USER;
-    }
+  public static UserEntity joinByEmail(SignUpModel model) {
+    return new UserEntity(
+        null,
+        model.getEmail(),
+        model.getPassword(),
+        model.getName(),
+        model.getNickname(),
+        UserRole.ROLE_USER,
+        JoinType.EMAIL,
+        null,
+        null,
+        null
+    );
   }
 }
