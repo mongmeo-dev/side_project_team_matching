@@ -1,5 +1,6 @@
 package dev.mongmeo.side_project_team_matching.adapter.out.persistence.converter;
 
+import dev.mongmeo.side_project_team_matching.exception.ErrorCode;
 import dev.mongmeo.side_project_team_matching.exception.ServerException;
 import dev.mongmeo.side_project_team_matching.entity.user.JoinType;
 import java.util.Arrays;
@@ -19,6 +20,6 @@ public class JoinTypeConverter implements AttributeConverter<JoinType, Integer> 
     return Arrays.stream(JoinType.values())
         .filter(joinType -> dbData.equals(joinType.getDbCode()))
         .findFirst()
-        .orElseThrow(() -> new ServerException("Invalid Join Type"));
+        .orElseThrow(() -> new ServerException(ErrorCode.INVALID_JOIN_TPE));
   }
 }

@@ -7,14 +7,17 @@ import org.springframework.http.HttpStatus;
 public class RequestException extends RuntimeException {
 
   private final HttpStatus responseStatus;
+  private final ErrorCode errorCode;
 
-  public RequestException(String message, HttpStatus responseStatus) {
-    super(message);
+  public RequestException(HttpStatus responseStatus, ErrorCode errorCode) {
+    super();
     this.responseStatus = responseStatus;
+    this.errorCode = errorCode;
   }
 
-  public RequestException(String message) {
-    super(message);
+  public RequestException(ErrorCode errorCode) {
+    super();
     this.responseStatus = HttpStatus.BAD_REQUEST;
+    this.errorCode = errorCode;
   }
 }
