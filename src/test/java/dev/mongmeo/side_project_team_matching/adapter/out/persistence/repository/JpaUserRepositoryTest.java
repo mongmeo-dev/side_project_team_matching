@@ -1,9 +1,9 @@
 package dev.mongmeo.side_project_team_matching.adapter.out.persistence.repository;
 
 import dev.mongmeo.side_project_team_matching.config.JpaConfiguration;
-import dev.mongmeo.side_project_team_matching.model.user.JoinType;
-import dev.mongmeo.side_project_team_matching.model.user.UserEntity;
-import dev.mongmeo.side_project_team_matching.model.user.UserRole;
+import dev.mongmeo.side_project_team_matching.entity.user.JoinType;
+import dev.mongmeo.side_project_team_matching.entity.user.UserEntity;
+import dev.mongmeo.side_project_team_matching.entity.user.UserRole;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

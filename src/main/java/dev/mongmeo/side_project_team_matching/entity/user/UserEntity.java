@@ -1,4 +1,4 @@
-package dev.mongmeo.side_project_team_matching.model.user;
+package dev.mongmeo.side_project_team_matching.entity.user;
 
 import dev.mongmeo.side_project_team_matching.adapter.out.persistence.converter.JoinTypeConverter;
 import dev.mongmeo.side_project_team_matching.adapter.out.persistence.converter.UserRoleConverter;

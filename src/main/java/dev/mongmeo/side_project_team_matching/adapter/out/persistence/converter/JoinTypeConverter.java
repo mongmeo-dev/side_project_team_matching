@@ -1,7 +1,7 @@
 package dev.mongmeo.side_project_team_matching.adapter.out.persistence.converter;
 
 import dev.mongmeo.side_project_team_matching.exception.ServerException;
-import dev.mongmeo.side_project_team_matching.model.user.JoinType;
+import dev.mongmeo.side_project_team_matching.entity.user.JoinType;
 import java.util.Arrays;
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
