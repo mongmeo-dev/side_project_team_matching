@@ -21,7 +21,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Entity
 @EntityListeners(AuditingEntityListener.class)
-public class VerificationMeta {
+public class VerificationMetaEntity {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -44,9 +44,9 @@ public class VerificationMeta {
   @Column(nullable = false)
   private LocalDateTime expireAt;
 
-  public static VerificationMeta create(String code, VerifyCodeSendMethod sendMethod) {
+  public static VerificationMetaEntity create(String code, VerifyCodeSendMethod sendMethod) {
     LocalDateTime expireDateTime = LocalDateTime.now().plusMinutes(30);
-    return new VerificationMeta(null, code, sendMethod, false, null, expireDateTime);
+    return new VerificationMetaEntity(null, code, sendMethod, false, null, expireDateTime);
   }
 
   public boolean isValidMeta() {
