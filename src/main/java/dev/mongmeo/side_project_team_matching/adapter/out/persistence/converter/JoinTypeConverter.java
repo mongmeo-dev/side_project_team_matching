@@ -20,6 +20,6 @@ public class JoinTypeConverter implements AttributeConverter<JoinType, Integer> 
     return Arrays.stream(JoinType.values())
         .filter(joinType -> dbData.equals(joinType.getDbCode()))
         .findFirst()
-        .orElseThrow(() -> new ServerException(ErrorCode.INVALID_JOIN_TPE));
+        .orElseThrow(() -> new ServerException(ErrorCode.INVALID_JOIN_TYPE));
   }
 }
