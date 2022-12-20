@@ -35,6 +35,9 @@ public class UserEntity {
   @Column(nullable = false)
   private String email;
 
+  @Column(nullable = false)
+  private boolean emailVerified;
+
   @Column
   private String password;
 
@@ -67,6 +70,7 @@ public class UserEntity {
     return new UserEntity(
         null,
         model.getEmail(),
+        false,
         model.getPassword(),
         model.getName(),
         model.getNickname(),
