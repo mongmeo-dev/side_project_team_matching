@@ -1,4 +1,4 @@
-package dev.mongmeo.side_project_team_matching.domain.repository.user;
+package dev.mongmeo.side_project_team_matching.domain.port.out.repository.user;
 
 public interface UserQueryRepository {
 
