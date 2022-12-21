@@ -69,6 +69,8 @@ dependencyManagement {
     }
 }
 
+project.tasks.findAll {it -> it != clean}.forEach(it -> it.dependsOn << clean)
+
 test {
     useJUnitPlatform()
     finalizedBy 'jacocoTestReport'
