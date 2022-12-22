@@ -1,6 +1,9 @@
 package dev.mongmeo.side_project_team_matching.entity.verification;
 
 import dev.mongmeo.side_project_team_matching.adapter.out.persistence.converter.VerifyCodeSendMethodConverter;
+import dev.mongmeo.side_project_team_matching.exception.ErrorCode;
+import dev.mongmeo.side_project_team_matching.exception.RequestException;
+import java.time.Clock;
 import java.time.LocalDateTime;
 import javax.persistence.Column;
 import javax.persistence.Convert;
@@ -46,12 +49,19 @@ public class VerificationMetaEntity {
   @Column(nullable = false)
   private LocalDateTime expireAt;
 
-  public static VerificationMetaEntity create(String code, VerifyCodeSendMethod sendMethod) {
-    LocalDateTime expireDateTime = LocalDateTime.now().plusMinutes(30);
+  public static VerificationMetaEntity create(String code, VerifyCodeSendMethod sendMethod, Clock clock) {
+    LocalDateTime expireDateTime = LocalDateTime.now(clock).plusMinutes(30);
     return new VerificationMetaEntity(null, code, sendMethod, false, null, expireDateTime);
   }
 
-  public boolean isValidMeta() {
-    return !isVerified && LocalDateTime.now().isBefore(expireAt);
+  public void verify(Clock clock) {
+    if (!isValidMeta(clock)) {
+      throw new RequestException(ErrorCode.INVALID_VERIFICATION_META);
+    }
+    this.isVerified = true;
+  }
+
+  private boolean isValidMeta(Clock clock) {
+    return !isVerified && LocalDateTime.now(clock).isBefore(expireAt);
   }
 }
