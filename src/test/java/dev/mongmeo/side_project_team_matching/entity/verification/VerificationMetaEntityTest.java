@@ -20,7 +20,7 @@ class VerificationMetaEntityTest {
   @DisplayName("새로운 entity를 생성하면 유효기간이 30분인 entity가 생성된다.")
   void createTest() {
     // when
-    VerificationMetaEntity actual = VerificationMetaEntity.create("12345", VerifyCodeSendMethod.EMAIL, clock);
+    VerificationMetaEntity actual = VerificationMetaEntity.createEmailVerificationMeta("test@test.com", "12345", clock);
 
     // then
     Assertions.assertThat(actual.getExpireAt().toInstant(ZoneOffset.UTC))
@@ -32,10 +32,10 @@ class VerificationMetaEntityTest {
   void verifySuccessTest() {
     // given
     Clock now = Clock.fixed(Instant.parse("2022-12-22T20:29:59.99Z"), ZoneId.of("UTC"));
-    VerificationMetaEntity entity = VerificationMetaEntity.create("12345", VerifyCodeSendMethod.EMAIL, clock);
+    VerificationMetaEntity actual = VerificationMetaEntity.createEmailVerificationMeta("test@test.com", "12345", clock);
 
     // when
-    entity.verify(now);
+    actual.verify(now);
 
     // then
     NotThrownAssert result = Assertions.assertThatNoException();
@@ -46,11 +46,11 @@ class VerificationMetaEntityTest {
   void verifyFailCauseByExpiredTest() {
     // given
     Clock now = Clock.fixed(Instant.parse("2022-12-22T20:30:00.01Z"), ZoneId.of("UTC"));
-    VerificationMetaEntity entity = VerificationMetaEntity.create("12345", VerifyCodeSendMethod.EMAIL, clock);
+    VerificationMetaEntity actual = VerificationMetaEntity.createEmailVerificationMeta("test@test.com", "12345", clock);
 
     // when
     // then
-    Assertions.assertThatThrownBy(() -> entity.verify(now)).isInstanceOf(RequestException.class);
+    Assertions.assertThatThrownBy(() -> actual.verify(now)).isInstanceOf(RequestException.class);
   }
 
 
@@ -59,13 +59,14 @@ class VerificationMetaEntityTest {
   void verifyFailCauseByAlreadyUsedTest() throws NoSuchFieldException, IllegalAccessException {
     // given
     Clock now = Clock.fixed(Instant.parse("2022-12-22T20:29:59.99Z"), ZoneId.of("UTC"));
-    VerificationMetaEntity entity = VerificationMetaEntity.create("12345", VerifyCodeSendMethod.EMAIL, clock);
+    VerificationMetaEntity actual = VerificationMetaEntity.createEmailVerificationMeta("test@test.com", "12345", clock);
+
     Field isVerifiedField = VerificationMetaEntity.class.getDeclaredField("isVerified");
     isVerifiedField.setAccessible(true);
-    isVerifiedField.set(entity, true);
+    isVerifiedField.set(actual, true);
 
     // when
     // then
-    Assertions.assertThatThrownBy(() -> entity.verify(now)).isInstanceOf(RequestException.class);
+    Assertions.assertThatThrownBy(() -> actual.verify(now)).isInstanceOf(RequestException.class);
   }
 }

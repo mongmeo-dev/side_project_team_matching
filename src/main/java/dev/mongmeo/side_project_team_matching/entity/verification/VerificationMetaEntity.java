@@ -43,15 +43,21 @@ public class VerificationMetaEntity {
   private boolean isVerified;
 
   @Column
+  private String email;
+
+  @Column(length = 11)
+  private String phoneNumber;
+
+  @Column
   @CreatedDate
   private LocalDateTime createdAt;
 
   @Column(nullable = false)
   private LocalDateTime expireAt;
 
-  public static VerificationMetaEntity create(String code, VerifyCodeSendMethod sendMethod, Clock clock) {
+  public static VerificationMetaEntity createEmailVerificationMeta(String email, String code, Clock clock) {
     LocalDateTime expireDateTime = LocalDateTime.now(clock).plusMinutes(30);
-    return new VerificationMetaEntity(null, code, sendMethod, false, null, expireDateTime);
+    return new VerificationMetaEntity(null, code, VerifyCodeSendMethod.EMAIL, false, email, null, null, expireDateTime);
   }
 
   public void verify(Clock clock) {
