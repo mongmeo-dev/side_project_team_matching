@@ -1,6 +1,7 @@
 package dev.mongmeo.side_project_team_matching.service.user;
 
 import dev.mongmeo.side_project_team_matching.domain.model.user.SignUpModel;
+import dev.mongmeo.side_project_team_matching.domain.port.in.usecase.verification.SendVerificationEmailUseCase;
 import dev.mongmeo.side_project_team_matching.domain.port.out.repository.user.UserQueryRepository;
 import dev.mongmeo.side_project_team_matching.domain.port.out.repository.user.UserUpsertRepository;
 import dev.mongmeo.side_project_team_matching.domain.port.in.usecase.user.SignUpUseCase;
@@ -18,6 +19,7 @@ public class UserService implements SignUpUseCase {
 
   private final UserUpsertRepository userUpsertRepository;
   private final UserQueryRepository userQueryRepository;
+  private final SendVerificationEmailUseCase sendVerificationEmailUseCase;
   private final PasswordEncoder passwordEncoder;
 
   @Override
@@ -29,7 +31,7 @@ public class UserService implements SignUpUseCase {
 
     UserEntity savedUser = userUpsertRepository.save(UserEntity.joinByEmail(model));
 
-    // TODO : 이메일 인증
+    sendVerificationEmailUseCase.sendVerificationEmail(savedUser);
 
     return savedUser.getId();
   }
