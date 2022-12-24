@@ -1,5 +1,6 @@
 package dev.mongmeo.side_project_team_matching.adapter.out.persistence.repository;
 
+import dev.mongmeo.side_project_team_matching.adapter.out.persistence.repository.user.JpaUserRepository;
 import dev.mongmeo.side_project_team_matching.config.JpaConfiguration;
 import dev.mongmeo.side_project_team_matching.domain.model.user.SignUpModel;
 import dev.mongmeo.side_project_team_matching.entity.user.UserEntity;
