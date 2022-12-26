@@ -1,4 +1,4 @@
-package dev.mongmeo.side_project_team_matching.adapter.out.persistence.repository;
+package dev.mongmeo.side_project_team_matching.adapter.out.persistence.repository.verificatioin;
 
 import dev.mongmeo.side_project_team_matching.domain.port.out.repository.verification.VerificationMetaSaveRepository;
 import dev.mongmeo.side_project_team_matching.entity.verification.VerificationMetaEntity;
