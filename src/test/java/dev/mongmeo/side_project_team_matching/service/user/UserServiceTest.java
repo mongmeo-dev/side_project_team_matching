@@ -4,6 +4,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.argThat;
 
 import dev.mongmeo.side_project_team_matching.domain.model.user.SignUpModel;
+import dev.mongmeo.side_project_team_matching.domain.port.in.usecase.verification.SendVerificationEmailUseCase;
 import dev.mongmeo.side_project_team_matching.domain.port.out.repository.user.UserQueryRepository;
 import dev.mongmeo.side_project_team_matching.domain.port.out.repository.user.UserUpsertRepository;
 import dev.mongmeo.side_project_team_matching.entity.user.UserEntity;
@@ -22,6 +23,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @ExtendWith(MockitoExtension.class)
 class UserServiceTest {
 
+  @Mock
+  private SendVerificationEmailUseCase sendVerificationEmailUseCase;
   @Mock
   private UserUpsertRepository userUpsertRepository;
   @Mock
@@ -53,6 +56,7 @@ class UserServiceTest {
         .save(argThat(entity -> entity.getEmail().equals(model.getEmail())
             && entity.getPassword().equals(encodedPassword) && entity.getName().equals(model.getName())
             && entity.getNickname().equals(model.getNickname())));
+    Mockito.verify(sendVerificationEmailUseCase, Mockito.times(1)).sendVerificationEmail(mockSavedEntity);
   }
 
   @Test
