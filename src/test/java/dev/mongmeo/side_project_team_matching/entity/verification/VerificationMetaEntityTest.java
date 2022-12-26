@@ -20,10 +20,13 @@ class VerificationMetaEntityTest {
   @DisplayName("새로운 entity를 생성하면 유효기간이 30분인 entity가 생성된다.")
   void createTest() {
     // when
-    VerificationMetaEntity actual = VerificationMetaEntity.createEmailVerificationMeta("test@test.com", "12345", clock);
+    VerificationMetaEntity emailActual = VerificationMetaEntity.createEmailVerificationMeta("test@test.com", "12345", clock);
+    VerificationMetaEntity phoneActual = VerificationMetaEntity.createPhoneVerificationMeta("01012345678", "12345", clock);
 
     // then
-    Assertions.assertThat(actual.getExpireAt().toInstant(ZoneOffset.UTC))
+    Assertions.assertThat(emailActual.getExpireAt().toInstant(ZoneOffset.UTC))
+        .isEqualTo(clock.instant().plus(30, ChronoUnit.MINUTES));
+    Assertions.assertThat(phoneActual.getExpireAt().toInstant(ZoneOffset.UTC))
         .isEqualTo(clock.instant().plus(30, ChronoUnit.MINUTES));
   }
 

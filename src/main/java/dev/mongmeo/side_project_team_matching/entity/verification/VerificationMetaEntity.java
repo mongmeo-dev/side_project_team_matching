@@ -32,7 +32,7 @@ public class VerificationMetaEntity {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  @Column(nullable = false, columnDefinition = "char(6)")
+  @Column(nullable = false, columnDefinition = "char(8)")
   private String code;
 
   @Column(nullable = false)
@@ -60,11 +60,29 @@ public class VerificationMetaEntity {
     return new VerificationMetaEntity(null, code, VerifyCodeSendMethod.EMAIL, false, email, null, null, expireDateTime);
   }
 
+  public static VerificationMetaEntity createPhoneVerificationMeta(String phoneNumber, String code, Clock clock) {
+    LocalDateTime expireDateTime = LocalDateTime.now(clock).plusMinutes(30);
+    return new VerificationMetaEntity(
+        null,
+        code,
+        VerifyCodeSendMethod.PHONE,
+        false,
+        null,
+        phoneNumber,
+        null,
+        expireDateTime
+    );
+  }
+
   public void verify(Clock clock) {
     if (!isValidMeta(clock)) {
       throw new RequestException(ErrorCode.INVALID_VERIFICATION_META);
     }
     this.isVerified = true;
+  }
+
+  public void expire() {
+    this.expireAt = LocalDateTime.MIN;
   }
 
   private boolean isValidMeta(Clock clock) {
