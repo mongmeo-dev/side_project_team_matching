@@ -31,3 +31,7 @@
 ### Diagrams
 * [UseCase](./side-project-use-case.jpg)
 * [ERD](https://dbdiagram.io/d/63927a73bae3ed7c4545b28c)
+
+---
+팀프로젝트 기간동안 잠시 쉬어갑니다
+2022.12.26~
